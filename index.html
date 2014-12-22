@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>G-virial method</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css?v=1.1" >
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<!--
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      "HTML-CSS": {
+        availableFonts: [],
+        preferredFonts: "SPIX",
+        webFont:"",
+        imageFont:"",
+        undefinedFamily:"'Helvetica',serif"
+      }
+    });
+    </script> -->
+
+    <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>G-virial</h1>
+        <p>Gravity-based structure analysis of molecular clouds</p>
+
+        <p class="view"><a href="http://github.com/gxli/G-virial">View the Project on GitHub <small>gxli/G-virial</small></a></p>
+        <ul>
+          <li><a href="https://github.com/gxli/G-virial/archive/master.zip">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/gxli/G-virial/raw/master/readme.pdf">Read the <strong>Docs</strong></a></li>
+          <li><a href="http://github.com/gxli/G-virial">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+
+      <section>
+        <h2>General concept</h2>
+        <p>
+        Gravity plays important roles in astrophysical conditions. In observations, gas can be observed in Position-Position-Velocity (PPV) space. The G-virial method aims to synthesise the position and velocity informaiton of the gas, and provides a global picture of gravity.
+        </p>
+
+        <p>
+        The input of the method is a distrubtion of mass in the PPV space, which can be obtained by mapping the molecular gas with radio telescopes. The output of the method is a map of the importance of gravity in the PPV space (G-virial map).
+      </p>
+
+      <p>
+        <table width="100%" height="100%" align="center" valign="center">
+          <tr><td>
+        <IMG SRC="images/gvirial.jpg" ALT="G-virial map Perseus" WIDTH=400>
+          <figcaption>
+            A 3D rendering of the Perseus moleclar cloud. The blue contours stand for gas traced by the 13CO(1-0) emission, and the red contours stand for the G-virial. Created with <a href="http://yt-project.org/">yt </a>.
+          </figcaption>
+        </td></tr>
+        </table>
+      </p>
+    </section>
+
+  <section>
+  <h2>How it works</h2>
+  <p>
+    The G-virial map is derived based on a map of mass distribution. Given a mass distribution
+    <div style="font-family : mathFont;">
+    $$\mathrm  m(x,y,v)=\rho(x,y,v)\;{\rm d}x\; {\rm d} y \;{\rm d}v\;,
+    $$
+  </div>
+
+
+    The G-virial is defined as
+    <div style="font-family : mathFont;">
+    $$\mathrm
+    \alpha (x,y,v)=
+    \int \frac{G \;\rho(x',y',v')}{((x-x')^2+(y-y')^2)^{1/2}}
+    \frac{1}{(v-v')^2 + c_0 ^2}\;{\rm d}x' {\rm d}y' {\rm
+      d}v'\;.$$
+    </div>
+    The G-virial map is computed according to this definition.
+
+    </p>
+
+  </section>
+
+
+  <section>
+    <h2>Getting started</h2>
+
+    <p>
+      Simply try it out.
+      <ol>
+        <li>
+          <p>Download a
+          <a href="http://www.cfa.harvard.edu/COMPLETE/data_html_pages/PerA_13coFCRAO_F.html">CO data cube</a>. The axes have to be arranged as (v, y, x).</p>
+        </li>
+        <li>
+           <p>Run the program </p>
+           <p>
+           <div class="highlight">
+            python compute_gvirial.py file_in.fits file_out.fits d c_0 npad_fft
+          </div>
+        </p>
+
+
+          <p>
+          where <b>file_in</b> is the input fits file, <b>file_out</b> is the output file, <b>d</b> is the distance of the object measured in pc, <b>c_0</b> and <b>npad_fft</b> are parameters. Usually, <b>c_0 = 1e5</b> and <b>npad_fft = 3</b>.
+        </p>
+
+        </li>
+
+    </ol>
+
+    <p>
+    Another way of using the program is to call it as a function in python. Please find more details in the documentation.
+  </p>
+
+  <p>
+The output is a data cube which have the same dimensions as the input.
+The values in the output represent the importance of gravity across the PPV space.
+ It can be visualized and analyzed with many standard tools, such as the <a href="http://dendrograms.readthedocs.org/en/latest/">Dendrogram </a>.
+  </p>
+  <p>
+    <table width="100%" height="100%" align="center" valign="center">
+      <tr><td>
+        <IMG SRC="images/dendrogram.png" ALT="G-virial map Perseus" WIDTH=400>
+          <figcaption>
+          Visualzing the G-virial map of the Perseus molecular cloud with the <a href="http://dendrograms.readthedocs.org/en/latest/">Dendrogram </a> program.
+          </figcaption>
+        </td></tr>
+      </table>
+    </p>
+  </section>
+
+
+  <section>
+    <h2>Reference</h2>
+ <p> The G-virial method was introduced in this paper:
+   <i>G-virial: A Gravity-based Method to Quantify the Structure of Molecular Clouds. <i/>
+</p>
+ </section>
+    </div>
+    <footer>
+      <p>Project maintained by   <a                     href="mailto:gxli@usm.lmnu.de">Guang-Xing Li</a>
+      </p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <script src="javascripts/scale.fix.js"></script>
+  </body>
+</html>
